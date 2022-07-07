@@ -1,42 +1,72 @@
-const player = prompt('Enter rock or paper or scissors');
+const choices = ['rock', 'paper', 'scissors'];
 
 function ucwords(string) {
   return string[0].toUpperCase() + string.slice(1);
 }
 
+function validatePlayerChoice(player) {
+  player = player.toLowerCase();
+
+  if (!choices.includes(player)) {
+    console.log("Invalid input");
+  }
+
+  return player;
+}
+
 function computerPlay() {
-  const choices = ['rock', 'paper', 'scissors'];
   const randChoice = choices[Math.floor(Math.random() * choices.length)];
 
   return randChoice;
 }
 
-function playRound(playerSelection, computerSelection) {
-  const player = playerSelection.toLowerCase();
-  const computer = computerSelection;
-
+function playRound(player, computer) {
   if (
     (player === 'rock' && computer === 'paper') ||
     (player === 'paper' && computer === 'scissors') ||
     (player === 'scissors' && computer === 'rock')
   ) {
     // losing cases
-    console.log("player => " + player, "computer => " + computer);
-    return `You lose! ${ucwords(computer)} beats ${player}`;
+    console.log(player + '-' + computer);
+    return 'computer';
   } else if (
     (player === 'rock' && computer === 'scissors') ||
     (player === 'paper' && computer === 'rock') ||
     (player === 'scissors' && computer === 'paper')
   ) {
     // winning cases
-    console.log("player => " + player, "computer => " + computer);
-    return `You won! ${ucwords(player)} beats ${computer}`;
+    console.log(player + '-' + computer);
+    return 'player';
   } else if (player === computer) {
     // tie
-    console.log("player => " + player, "computer => " + computer);
-    return `Draw! You both play ${player}`;
-  } else {
-    // invalid inputs
-    return "Please enter 'rock' or 'paper' or 'scissors'";
+    console.log(player + '-' + computer);
+    return 'draw';
   }
 }
+
+function game() {
+  let message = '';
+  let playerPts = 0, computerPts = 0;
+
+  for (let i = 0; i < 5; i++) {
+    const playerChoice = prompt('Enter rock or paper or scissors');
+    const validated = validatePlayerChoice(playerChoice);
+    const round = playRound(validated, computerPlay());
+
+    if (round === 'player') playerPts++;
+    else if (round === 'computer') computerPts++;
+    else continue;
+  }
+
+  if (playerPts > computerPts) {
+    message = `You won after five games. You: ${playerPts} - Computer: ${computerPts}`;  
+  } else if (playerPts < computerPts) {
+    message = `You lost after five games. You: ${playerPts} - Computer: ${computerPts}`;
+  } else {
+    message = `Tie. You: ${playerPts} - Computer: ${computerPts}`;
+  }
+
+  console.log(message);
+}
+
+game();
