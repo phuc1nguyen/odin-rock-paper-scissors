@@ -133,6 +133,8 @@ function restartGame() {
   playerScore.textContent = playerPts;
   computerPts = 0;
   computerScore.textContent = computerPts;
+  playerAtk.innerHTML = '';
+  computerAtk.innerHTML = '';
 
   weaponChoices.style.display = 'block';
   results.style.display = 'none';
