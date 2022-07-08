@@ -80,6 +80,7 @@ function playRound(player, computer) {
     // tying cases
     console.log(player + '-' + computer);
   } else if (computer === 'secret') {
+    // special case
     console.log(player + '-' + computer);
   }
 
@@ -114,6 +115,7 @@ function endGame(type) {
     resultsMsg.style.color = 'red';
     resultsMsg.textContent = 'YOU LOST!';
   } else if (type === 'tie') {
+    resultsMsg.style.color = 'white';
     resultsMsg.textContent = 'TIE!';
   } else {
     resultsMsg.style.color = 'red';
@@ -121,7 +123,17 @@ function endGame(type) {
   }
 
   againBtn.disabled = false;
-  againBtn.addEventListener('click', () => {
-    window.location.reload();
-  });
+  againBtn.addEventListener('click', restartGame);
+}
+
+function restartGame() {
+  rounds = 5;
+  roundsLeft.textContent = rounds;
+  playerPts = 0;
+  playerScore.textContent = playerPts;
+  computerPts = 0;
+  computerScore.textContent = computerPts;
+
+  weaponChoices.style.display = 'block';
+  results.style.display = 'none';
 }
