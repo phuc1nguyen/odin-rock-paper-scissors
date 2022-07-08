@@ -1,4 +1,5 @@
-const choices = ['rock', 'paper', 'scissors'];
+const playerChoices = ['rock', 'paper', 'scissors'];
+const computerChoices = ['rock', 'paper', 'scissors', 'fu'];
 
 function ucwords(string) {
   return string[0].toUpperCase() + string.slice(1);
@@ -69,4 +70,10 @@ function game() {
   console.log(message);
 }
 
-game();
+const weapons = document.querySelectorAll('.choice');
+
+weapons.forEach(weapon => {
+  weapon.addEventListener('click', () => {
+    console.log(weapon.dataset.choice);
+  })
+});
