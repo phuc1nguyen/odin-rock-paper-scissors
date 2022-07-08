@@ -138,4 +138,6 @@ function restartGame() {
 
   weaponChoices.style.display = 'block';
   results.style.display = 'none';
+
+  console.clear();
 }
