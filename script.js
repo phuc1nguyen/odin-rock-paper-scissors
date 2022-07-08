@@ -80,23 +80,26 @@ function playRound(player, computer) {
     // tying cases
     console.log(player + '-' + computer);
   } else if (computer === 'secret') {
-    endGame('destroy');
+    console.log(player + '-' + computer);
   }
 
-  updateRound();
+  updateRound(computer);
 }
 
-function updateRound() {
+function updateRound(computer) {
   rounds--;
   roundsLeft.textContent = rounds;
   playerScore.textContent = playerPts;
   computerScore.textContent = computerPts;
-  console.log(rounds);
 
-  if (rounds === 0 && (playerPts > computerPts)) {
+  if (computer === 'secret') {
+    endGame('destroy');
+  } else if (rounds === 0 && (playerPts > computerPts)) {
     endGame('won');
   } else if (rounds === 0 && (playerPts < computerPts)) {
     endGame('lost');
+  } else if (rounds === 0 && (playerPts === computerPts)) {
+    endGame('tie');
   }
 }
 
@@ -110,6 +113,8 @@ function endGame(type) {
   } else if (type === 'lost') {
     resultsMsg.style.color = 'red';
     resultsMsg.textContent = 'YOU LOST!';
+  } else if (type === 'tie') {
+    resultsMsg.textContent = 'TIE!';
   } else {
     resultsMsg.style.color = 'red';
     resultsMsg.textContent = 'YOU LOST! IT\'S COMPUTER\'S SECRET WEAPON.';
