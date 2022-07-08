@@ -34,7 +34,7 @@ button {
 .battlefield,
 .weapons,
 .results {
-  margin: 3rem 0;
+  margin: 2rem 0;
 }
 
 .sides {
@@ -63,6 +63,7 @@ button {
 .points-item {
   height: 8rem;
   width: 8rem;
+  font-size: 4rem;
 }
 
 .points-pts {
@@ -86,11 +87,17 @@ button {
   font-size: 3rem;
 }
 
-
-
-
-
-
 .results {
   display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.results .results-item {
+  margin-bottom: 1rem;
+}
+
+.results .btn-again {
+  padding: 1rem 2rem;
+  font-weight: bold;
 }

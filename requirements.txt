@@ -1,0 +1,19 @@
+<i class="fa-solid fa-hand-back-fist"></i>
+<i class="fa-solid fa-hand"></i>
+<i class="fa-solid fa-hand-scissors"></i>
+<i class="fa-solid fa-hand-middle-finger"></i>
+
+user choose weapon:
+  - add weapon to battlefield
+  - decrease rounds left
+  - playRound()
+
+after a round:
+  - update score
+  - update rounds left
+  - highlight user last used weapon
+  if computer plays secret weapon:
+    - game ends immediately, display message
+  else
+    - user won after last round
+    - user lost after last round

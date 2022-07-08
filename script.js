@@ -1,24 +1,62 @@
+// Weapon types
 const playerChoices = ['rock', 'paper', 'scissors'];
-const computerChoices = ['rock', 'paper', 'scissors', 'fu'];
+const computerChoices = ['rock', 'paper', 'scissors', 'secret'];
+const rock = '<i class="fa-solid fa-hand-back-fist"></i>';
+const paper = '<i class="fa-solid fa-hand"></i>';
+const scissors = '<i class="fa-solid fa-hand-scissors"></i>';
+const secret = '<i class="fa-solid fa-hand-middle-finger"></i>';
 
-function ucwords(string) {
-  return string[0].toUpperCase() + string.slice(1);
-}
+// UI elements
+const playerAtk = document.querySelector('.points-you');
+const computerAtk = document.querySelector('.points-computer');
+const weapons = document.querySelectorAll('.choice');
+const againBtn = document.querySelector('.btn-again');
+const weaponChoices = document.querySelector('.weapons');
+const results = document.querySelector('.results');
+const resultsMsg = document.querySelector('.results-item');
+const roundsLeft = document.querySelector('.rounds-left');
+const playerScore = document.querySelector('.pts-1');
+const computerScore = document.querySelector('.pts-2');
 
-function validatePlayerChoice(player) {
-  player = player.toLowerCase();
+// Game Infos
+let rounds = 5;
+let playerPts = 0, computerPts = 0;
+let playerPlay = '';
 
-  if (!choices.includes(player)) {
-    console.log("Invalid input");
-  }
+roundsLeft.textContent = rounds;
+playerScore.textContent = playerPts;
+computerScore.textContent = computerPts;
 
-  return player;
-}
+weapons.forEach(weapon => {
+  weapon.addEventListener('click', () => {
+    if (weapon.dataset.choice === 'rock') {
+      playerAtk.innerHTML = rock;
+    } else if (weapon.dataset.choice === 'paper') {
+      playerAtk.innerHTML = paper;
+    } else if (weapon.dataset.choice === 'scissors') {
+      playerAtk.innerHTML = scissors;
+    } else {
+      alert("Please don't do such thing");
+    }
+    playerPlay = weapon.dataset.choice;
+    playRound(playerPlay, computerPlay());
+  })
+});
 
 function computerPlay() {
-  const randChoice = choices[Math.floor(Math.random() * choices.length)];
+  const random = computerChoices[Math.floor(Math.random() * computerChoices.length)];
 
-  return randChoice;
+  if (random === 'rock') {
+    computerAtk.innerHTML = rock;
+  } else if (random === 'paper') {
+    computerAtk.innerHTML = paper;
+  } else if (random === 'scissors') {
+    computerAtk.innerHTML = scissors;
+  } else {
+    computerAtk.innerHTML = secret;
+  }
+
+  return random;
 }
 
 function playRound(player, computer) {
@@ -29,7 +67,7 @@ function playRound(player, computer) {
   ) {
     // losing cases
     console.log(player + '-' + computer);
-    return 'computer';
+    computerPts++;
   } else if (
     (player === 'rock' && computer === 'scissors') ||
     (player === 'paper' && computer === 'rock') ||
@@ -37,43 +75,48 @@ function playRound(player, computer) {
   ) {
     // winning cases
     console.log(player + '-' + computer);
-    return 'player';
+    playerPts++;
   } else if (player === computer) {
-    // tie
+    // tying cases
     console.log(player + '-' + computer);
-    return 'draw';
+  } else if (computer === 'secret') {
+    endGame('destroy');
+  }
+
+  updateRound();
+}
+
+function updateRound() {
+  rounds--;
+  roundsLeft.textContent = rounds;
+  playerScore.textContent = playerPts;
+  computerScore.textContent = computerPts;
+  console.log(rounds);
+
+  if (rounds === 0 && (playerPts > computerPts)) {
+    endGame('won');
+  } else if (rounds === 0 && (playerPts < computerPts)) {
+    endGame('lost');
   }
 }
 
-function game() {
-  let message = '';
-  let playerPts = 0, computerPts = 0;
+function endGame(type) {
+  weaponChoices.style.display = 'none';
+  results.style.display = 'flex';
 
-  for (let i = 0; i < 5; i++) {
-    const playerChoice = prompt('Enter rock or paper or scissors');
-    const validated = validatePlayerChoice(playerChoice);
-    const round = playRound(validated, computerPlay());
-
-    if (round === 'player') playerPts++;
-    else if (round === 'computer') computerPts++;
-    else continue;
-  }
-
-  if (playerPts > computerPts) {
-    message = `You won after five games. You: ${playerPts} - Computer: ${computerPts}`;  
-  } else if (playerPts < computerPts) {
-    message = `You lost after five games. You: ${playerPts} - Computer: ${computerPts}`;
+  if (type === 'won') {
+    resultsMsg.style.color = 'lightgreen';
+    resultsMsg.textContent = 'YOU WON!';
+  } else if (type === 'lost') {
+    resultsMsg.style.color = 'red';
+    resultsMsg.textContent = 'YOU LOST!';
   } else {
-    message = `Tie. You: ${playerPts} - Computer: ${computerPts}`;
+    resultsMsg.style.color = 'red';
+    resultsMsg.textContent = 'YOU LOST! IT\'S COMPUTER\'S SECRET WEAPON.';
   }
 
-  console.log(message);
+  againBtn.disabled = false;
+  againBtn.addEventListener('click', () => {
+    window.location.reload();
+  });
 }
-
-const weapons = document.querySelectorAll('.choice');
-
-weapons.forEach(weapon => {
-  weapon.addEventListener('click', () => {
-    console.log(weapon.dataset.choice);
-  })
-});
