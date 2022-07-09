@@ -46,7 +46,7 @@ button {
 }
 
 .sides h3 {
-  width: 35%;
+  width: 30%;
   text-align: center;
 }
 
@@ -59,7 +59,7 @@ button {
 
 .sides,
 .points {
-  width: 20vw;
+  width: 30vw;
 }
 
 .points-item {
